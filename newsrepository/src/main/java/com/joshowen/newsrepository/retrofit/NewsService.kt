@@ -1,6 +1,6 @@
 package com.joshowen.newsrepository.retrofit
 
-import com.joshowen.newsrepository.request.TopStoriesResponse
+import com.joshowen.newsrepository.retrofit.request.TopStoriesResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -1,4 +1,4 @@
-package com.joshowen.newsrepository.request
+package com.joshowen.newsrepository.retrofit.request
 
 import com.joshowen.newsrepository.data.Article
 

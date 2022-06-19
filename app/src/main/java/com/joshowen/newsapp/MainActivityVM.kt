@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.joshowen.newsapp.config.DEFAULT_APPLICATION_LOCALE
 import com.joshowen.newsrepository.data.Article
 import com.joshowen.newsrepository.repos.NewsRepository
-import com.joshowen.newsrepository.utils.ResultWrapper
+import com.joshowen.newsrepository.retrofit.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -36,6 +36,8 @@ dependencies {
 
     // Dependency Injection - Hilt
     implementation("com.google.dagger:hilt-android:2.42")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
     kapt("com.google.dagger:hilt-android-compiler:2.38.1")
 
     //Retrofit
@@ -44,6 +46,12 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
+    // Optional -- mockito-kotlin
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
+
+
+    // Required -- JUnit 4 framework
+    testImplementation "org.mockito:mockito-core:4.0.0"
 
     //Room
     implementation("androidx.room:room-runtime:2.4.2")
@@ -55,6 +63,9 @@ dependencies {
 
     //Gson
     implementation 'com.google.code.gson:gson:2.9.0'
+
+    //Coroutines - Test
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'

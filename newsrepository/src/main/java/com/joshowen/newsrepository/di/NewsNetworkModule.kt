@@ -64,15 +64,12 @@ object NewsNetworkModule {
         @Named("httpLoggingInterceptor") httpLoggingInterceptor: Interceptor,
         @Named("apiKeyInterceptor") apiKeyInterceptor: Interceptor
     ): OkHttpClient {
-        val httpBuilder = OkHttpClient.Builder()
+        return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor(apiKeyInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(50, TimeUnit.SECONDS)
-
-        return httpBuilder
-            .protocols(mutableListOf(Protocol.HTTP_1_1))
             .build()
     }
 

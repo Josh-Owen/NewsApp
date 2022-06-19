@@ -1,4 +1,4 @@
-package com.joshowen.newsrepository.utils
+package com.joshowen.newsrepository.retrofit
 
 
 sealed class ResultWrapper<out T> {

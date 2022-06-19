@@ -1,7 +1,7 @@
 package com.joshowen.newsrepository.repos
 
-import com.joshowen.newsrepository.request.TopStoriesResponse
-import com.joshowen.newsrepository.utils.ResultWrapper
+import com.joshowen.newsrepository.retrofit.request.TopStoriesResponse
+import com.joshowen.newsrepository.retrofit.ResultWrapper
 import retrofit2.Response
 
 interface NewsRepository {

@@ -2,6 +2,8 @@ package com.joshowen.newsapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,9 +34,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observe() {
+        val progress = findViewById<ProgressBar>(R.id.pbProgress)
         lifecycleScope.launch {
+            progress.visibility = View.VISIBLE
             val items = viewModel.callAPI()
             adapter.submitList(items)
+            progress.visibility = View.GONE
         }
     }
 }

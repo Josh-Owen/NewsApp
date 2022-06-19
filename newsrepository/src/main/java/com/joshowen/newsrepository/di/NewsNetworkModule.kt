@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NewsNetworkModule {
@@ -29,14 +28,14 @@ object NewsNetworkModule {
 
     @Provides
     @Singleton
-    fun getGson(): Gson {
+    fun provideGson(): Gson {
         return GsonBuilder().serializeNulls().setLenient().create()
     }
 
     @Provides
     @Singleton
     @Named("apiKeyInterceptor")
-    fun getAPIKeyInterceptor(): Interceptor {
+    fun provideAPIKeyInterceptor(): Interceptor {
         return Interceptor {
             it.proceed(
                 it.request()
@@ -50,7 +49,7 @@ object NewsNetworkModule {
     @Provides
     @Singleton
     @Named("httpLoggingInterceptor")
-    fun getHttpLoggingInterceptor(): Interceptor {
+    fun provideHttpLoggingInterceptor(): Interceptor {
         return HttpLoggingInterceptor().apply {
             if (BuildConfig.DEBUG) {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -60,7 +59,7 @@ object NewsNetworkModule {
 
     @Provides
     @Singleton
-    fun getOkHttpClient(
+    fun provideOkHttpClient(
         @Named("httpLoggingInterceptor") httpLoggingInterceptor: Interceptor,
         @Named("apiKeyInterceptor") apiKeyInterceptor: Interceptor
     ): OkHttpClient {
@@ -75,7 +74,7 @@ object NewsNetworkModule {
 
     @Provides
     @Singleton
-    fun getRetrofit(
+    fun provideRetrofit(
         client: OkHttpClient,
         gson: Gson
     ): Retrofit {
@@ -88,7 +87,7 @@ object NewsNetworkModule {
 
     @Provides
     @Singleton
-    fun getNewsService(retrofit: Retrofit): NewsService {
+    fun provideNewsService(retrofit: Retrofit): NewsService {
         return retrofit.create(NewsService::class.java)
     }
 }

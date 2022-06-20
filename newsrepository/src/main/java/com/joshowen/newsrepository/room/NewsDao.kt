@@ -20,6 +20,6 @@ interface NewsDao {
     fun updateArticle(article : Article)
 
     @Insert
-    fun addArticles(articles : List<Article>)
+    fun insertArticles(articles : List<Article>)
 
 }

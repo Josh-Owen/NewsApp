@@ -1,18 +1,17 @@
 package com.joshowen.newsapp
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.joshowen.newsapp.base.BaseActivity
+import com.joshowen.newsapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val viewModel : MainActivityVM by viewModels()
 
@@ -20,26 +19,24 @@ class MainActivity : AppCompatActivity() {
         ArticleAdapter()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun inflateBinding(layoutInflater: LayoutInflater): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
+    }
 
-        val recyclerView = findViewById<RecyclerView>(R.id.rvArticles)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+    override fun initViews() {
+        super.initViews()
 
-        observe()
-
+        binding.rvArticles.adapter = adapter
+        binding.rvArticles.layoutManager = LinearLayoutManager(this)
 
     }
 
-    private fun observe() {
-        val progress = findViewById<ProgressBar>(R.id.pbProgress)
+    override fun observeViewModel() {
         lifecycleScope.launch {
-            progress.visibility = View.VISIBLE
+            binding.pbProgress.visibility = View.VISIBLE
             val items = viewModel.callAPI()
             adapter.submitList(items)
-            progress.visibility = View.GONE
+            binding.pbProgress.visibility = View.GONE
         }
     }
 }

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.Navigator
 import androidx.preference.PreferenceManager
 import androidx.viewbinding.ViewBinding
+import com.joshowen.newsapp.utils.wrappers.SharedPrefsWrapper.Companion.getIsDarkModeEnabled
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
@@ -26,7 +27,7 @@ abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity() {
 
 
 
-        if (true) {
+        if (getIsDarkModeEnabled(this)) {
             delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
         } else {
             delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_NO

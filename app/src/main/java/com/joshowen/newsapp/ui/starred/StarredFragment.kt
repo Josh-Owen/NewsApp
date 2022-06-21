@@ -1,34 +1,35 @@
-package com.joshowen.newsapp
+package com.joshowen.newsapp.ui.starred
 
 import android.view.LayoutInflater
 import android.view.View
-import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.joshowen.newsapp.base.BaseActivity
-import com.joshowen.newsapp.databinding.ActivityMainBinding
+import com.joshowen.newsapp.ArticleAdapter
+import com.joshowen.newsapp.base.BaseFragment
+import com.joshowen.newsapp.databinding.FragmentStarredBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class StarredFragment : BaseFragment<FragmentStarredBinding>() {
 
-    private val viewModel : MainActivityVM by viewModels()
+    //region Variables
+
+    private val viewModel : StarredFragmentVM by viewModels()
 
     private val adapter : ArticleAdapter by lazy {
         ArticleAdapter()
     }
 
-    override fun inflateBinding(layoutInflater: LayoutInflater): ActivityMainBinding {
-        return ActivityMainBinding.inflate(layoutInflater)
+    //endregion
+
+
+    override fun inflateBinding(layoutInflater: LayoutInflater): FragmentStarredBinding {
+        return FragmentStarredBinding.inflate(layoutInflater)
     }
 
     override fun initViews() {
         super.initViews()
-
-        binding.rvArticles.adapter = adapter
-        binding.rvArticles.layoutManager = LinearLayoutManager(this)
-
     }
 
     override fun observeViewModel() {
@@ -39,4 +40,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             binding.pbProgress.visibility = View.GONE
         }
     }
+
 }

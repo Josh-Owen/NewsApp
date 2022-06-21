@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/articlesFragment"
+        android:title="@string/navigation_title_article"
+        android:icon="@drawable/ic_article" />
+
+    <item android:id="@+id/starredFragment"
+        android:title="@string/navigation_title_starred"
+        android:icon="@drawable/ic_star" />
+</menu>

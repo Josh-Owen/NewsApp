@@ -10,6 +10,8 @@ import com.joshowen.newsapp.base.BaseFragment
 import com.joshowen.newsapp.databinding.FragmentStarredBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class StarredFragment : BaseFragment<FragmentStarredBinding>() {
@@ -21,6 +23,7 @@ class StarredFragment : BaseFragment<FragmentStarredBinding>() {
     private val adapter : ArticleAdapter by lazy {
         ArticleAdapter()
     }
+
 
     //endregion
 

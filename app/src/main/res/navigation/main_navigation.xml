@@ -9,20 +9,13 @@
         android:name="com.joshowen.newsapp.ui.articles.ArticlesFragment"
         android:label="@string/page_title_articles" >
         <action
-            android:id="@+id/action_articlesFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-        <action
             android:id="@+id/action_articlesFragment_to_starredFragment"
             app:destination="@id/starredFragment" />
     </fragment>
     <fragment
         android:id="@+id/starredFragment"
         android:name="com.joshowen.newsapp.ui.starred.StarredFragment"
-        android:label="@string/page_title_starred" >
-        <action
-            android:id="@+id/action_starredFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-    </fragment>
+        android:label="@string/page_title_starred" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.joshowen.newsapp.ui.settings.SettingsFragment"

@@ -3,22 +3,13 @@ package com.joshowen.newsapp.ui.settings
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.joshowen.newsapp.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(false)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.clear()
-        super.onPrepareOptionsMenu(menu)
-    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.fragment_settings, rootKey)
@@ -43,6 +34,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 .setTitle(R.string.settings_switch_theme_warning_title).show()
             true
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
     }
 
 }

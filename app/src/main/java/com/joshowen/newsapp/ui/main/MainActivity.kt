@@ -8,10 +8,13 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.joshowen.newsapp.R
 import com.joshowen.newsapp.base.BaseActivity
 import com.joshowen.newsapp.databinding.ActivityMainBinding
+import com.joshowen.newsapp.utils.hideView
+import com.joshowen.newsapp.utils.setVisible
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
@@ -34,6 +37,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initViews() {
         super.initViews()
         navController = findNavController(R.id.fCv)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.settingsFragment -> binding.bnvHomeNavigation.hideView()
+                else -> binding.bnvHomeNavigation.setVisible()
+            }
+        }
         appBarConfiguration = AppBarConfiguration(setOf(R.id.articlesFragment, R.id.starredFragment))
         NavigationUI.setupWithNavController(binding.bnvHomeNavigation, navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -53,13 +62,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
-            R.id.actionSettings -> {
-                navController.navigate(R.id.settingsFragment)
-                true
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
+        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 
     //endregion

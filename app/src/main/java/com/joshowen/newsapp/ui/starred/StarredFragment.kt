@@ -4,7 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.joshowen.newsapp.ArticleAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.joshowen.newsapp.ui.articles.ArticleAdapter
 import com.joshowen.newsapp.base.BaseFragment
 import com.joshowen.newsapp.databinding.FragmentStarredBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +31,8 @@ class StarredFragment : BaseFragment<FragmentStarredBinding>() {
 
     override fun initViews() {
         super.initViews()
+        binding.rvArticles.adapter = adapter
+        binding.rvArticles.layoutManager = LinearLayoutManager(requireContext())
     }
 
     override fun observeViewModel() {

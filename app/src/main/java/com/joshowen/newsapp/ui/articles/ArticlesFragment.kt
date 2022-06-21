@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.joshowen.newsapp.ArticleAdapter
 import com.joshowen.newsapp.base.BaseFragment
 import com.joshowen.newsapp.databinding.FragmentArticlesBinding
 import dagger.hilt.android.AndroidEntryPoint

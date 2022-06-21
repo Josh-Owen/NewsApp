@@ -1,4 +1,4 @@
-package com.joshowen.newsapp
+package com.joshowen.newsapp.ui.articles
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.joshowen.newsapp.databinding.ItemArticleBinding
 import com.joshowen.newsrepository.retrofit.request.TopStoriesArticleResponse
 
-class ArticleAdapter : ListAdapter<TopStoriesArticleResponse, ArticleAdapter.ArticleViewHolder>(DiffCallback()) {
+class ArticleAdapter : ListAdapter<TopStoriesArticleResponse, ArticleAdapter.ArticleViewHolder>(
+    DiffCallback()
+) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {

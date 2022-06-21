@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">NewsApp</string>
+
+    <!-- Navigation -->
+    <string name="navigation_title_starred">Starred</string>
+    <string name="navigation_title_article">Article</string>
+    <string name="navigation_title_settings">Settings</string>
+
+    <!-- Preference Keys -->
+    <string name="pref_dark_mode_key">DARK_MODE</string>
+
+    <!-- Settings -->
+    <string name="settings_colour_options_header">Colour Options</string>
+    <string name="settings_switch_theme_warning_title">Warning</string>
+    <string name="settings_switch_theme_warning_body">This change requires the application to be restarted, are you sure you wish to restart?</string>
+    <string name="settings_switch_theme_warning_positive">Yes</string>
+    <string name="settings_switch_theme_warning_negative">No</string>
+    <string name="settings_dark_theme_title">Dark Mode</string>
+
+    <!-- Pages Titles -->
+    <string name="page_title_articles">Articles</string>
+    <string name="page_title_starred">Starred</string>
+    <string name="page_title_settings">Settings</string>
+
 </resources>

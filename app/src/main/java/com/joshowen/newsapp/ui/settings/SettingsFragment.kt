@@ -14,8 +14,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.fragment_settings, rootKey)
 
-        val themeMode: SwitchPreference? =
-            findPreference(resources.getString(R.string.pref_dark_mode_key))
+        val themeMode: SwitchPreference? = findPreference(getString(R.string.pref_dark_mode_key))
         themeMode?.setOnPreferenceChangeListener { _, _ ->
             MaterialAlertDialogBuilder(requireContext()).setMessage(
                 R.string.settings_switch_theme_warning_body

@@ -16,8 +16,6 @@ import com.joshowen.newsapp.databinding.ActivityMainBinding
 import com.joshowen.newsapp.utils.hideView
 import com.joshowen.newsapp.utils.setVisible
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import javax.inject.Named
 
 
 @AndroidEntryPoint

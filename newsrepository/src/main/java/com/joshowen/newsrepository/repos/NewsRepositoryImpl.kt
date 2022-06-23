@@ -1,10 +1,8 @@
 package com.joshowen.newsrepository.repos
 
-import androidx.paging.PagingSource
 import com.joshowen.newsrepository.retrofit.request.TopStoriesResponse
 import com.joshowen.newsrepository.retrofit.NewsService
 import com.joshowen.newsrepository.retrofit.ResultWrapper
-import com.joshowen.newsrepository.retrofit.request.mapToArticle
 import com.joshowen.newsrepository.room.NewsDao
 import com.joshowen.newsrepository.room.models.Article
 import com.joshowen.newsrepository.utils.callApi
@@ -22,4 +20,7 @@ class NewsRepositoryImpl @Inject constructor(private val service : NewsService, 
         }
     }
 
+    override suspend fun getStarredStories(): List<Article> {
+        return listOf()
+    }
 }

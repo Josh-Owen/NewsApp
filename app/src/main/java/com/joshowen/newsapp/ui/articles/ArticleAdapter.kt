@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.joshowen.newsapp.databinding.ItemArticleBinding
-import com.joshowen.newsrepository.retrofit.request.TopStoriesArticleResponse
+import com.joshowen.newsrepository.room.models.Article
 
-class ArticleAdapter : ListAdapter<TopStoriesArticleResponse, ArticleAdapter.ArticleViewHolder>(
+class ArticleAdapter : ListAdapter<Article, ArticleAdapter.ArticleViewHolder>(
     DiffCallback()
 ) {
 
@@ -27,13 +27,13 @@ class ArticleAdapter : ListAdapter<TopStoriesArticleResponse, ArticleAdapter.Art
     }
 
     //region ItemCallback
-    class DiffCallback : DiffUtil.ItemCallback<TopStoriesArticleResponse>() {
+    class DiffCallback : DiffUtil.ItemCallback<Article>() {
 
-        override fun areItemsTheSame(oldItem: TopStoriesArticleResponse, newItem: TopStoriesArticleResponse): Boolean {
+        override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: TopStoriesArticleResponse, newItem: TopStoriesArticleResponse): Boolean {
+        override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem.title == newItem.title
         }
     }
@@ -47,7 +47,7 @@ class ArticleAdapter : ListAdapter<TopStoriesArticleResponse, ArticleAdapter.Art
 
         }
 
-        fun bind(article : TopStoriesArticleResponse) {
+        fun bind(article : Article) {
             tvTitle.text = article.title
         }
     }

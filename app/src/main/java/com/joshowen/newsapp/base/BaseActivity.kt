@@ -1,14 +1,17 @@
 package com.joshowen.newsapp.base
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.viewbinding.ViewBinding
+import com.joshowen.newsapp.R
 import com.joshowen.newsapp.utils.managers.SharedPreferenceManager
 import javax.inject.Inject
 
-abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity() {
+abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     lateinit var binding: Binding
 
@@ -21,7 +24,7 @@ abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         binding = inflateBinding(layoutInflater)
-        applySettings()
+        sharedPrefManager.getSharedPrefs().registerOnSharedPreferenceChangeListener(this)
         setContentView(binding.root)
 
 
@@ -42,12 +45,33 @@ abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity() {
 
     open fun initViews() {}
 
-    private fun applySettings() {
+    fun applySettings() {
 
         if (sharedPrefManager.isDarkModeEnabled()) {
             delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
         } else {
             delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_NO
+        }
+        recreate()
+    }
+
+    override fun onSharedPreferenceChanged(
+        preferences: SharedPreferences,
+        updatedFieldKey: String
+    ) {
+        when(updatedFieldKey) {
+            resources.getString(R.string.pref_dark_mode_key) -> {
+                if(sharedPrefManager.isDarkModeEnabled()) {
+                    delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
+                }
+                else {
+                    delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_NO
+                }
+                recreate()
+            }
+            else -> {
+                // Do nothing
+            }
         }
     }
 }

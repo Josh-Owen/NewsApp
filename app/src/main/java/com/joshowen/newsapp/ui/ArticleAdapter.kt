@@ -33,13 +33,7 @@ class ArticleAdapter(private val onArticleClicked: (article: Article) -> Unit) :
     ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         private val tvTitle = binding.tvTitle
-
-
         private var article: Article? = null
-
-        init {
-
-        }
 
         fun bind(article: Article?) {
             this.article = article
@@ -47,7 +41,7 @@ class ArticleAdapter(private val onArticleClicked: (article: Article) -> Unit) :
             if (article != null) {
                 tvTitle.text = article.title
             } else {
-                //Todo: Placeholder here
+                //Todo: Placeholder logic here
             }
             itemView.setOnClickListener(this)
         }

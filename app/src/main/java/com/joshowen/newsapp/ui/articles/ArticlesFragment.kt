@@ -13,11 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.joshowen.newsapp.R
 import com.joshowen.newsapp.base.BaseFragment
 import com.joshowen.newsapp.databinding.FragmentArticlesBinding
+import com.joshowen.newsapp.ext.clicks
 import com.joshowen.newsapp.ui.ArticleAdapter
 import com.joshowen.newsrepository.room.models.Article
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class ArticlesFragment : BaseFragment<FragmentArticlesBinding>() {
@@ -32,7 +35,6 @@ class ArticlesFragment : BaseFragment<FragmentArticlesBinding>() {
 
 
     //endregion
-
 
 
     override fun inflateBinding(layoutInflater: LayoutInflater): FragmentArticlesBinding {
@@ -52,9 +54,10 @@ class ArticlesFragment : BaseFragment<FragmentArticlesBinding>() {
 
         }
 
-        binding.btnRetry.setOnClickListener {
+        binding.btnRetry.clicks().onEach {
             articlesAdapter.refresh()
-        }
+        }.launchIn(lifecycleScope)
+
 
         binding.rvArticles.apply {
             adapter = articlesAdapter
@@ -65,7 +68,7 @@ class ArticlesFragment : BaseFragment<FragmentArticlesBinding>() {
     override fun observeViewModel() {
 
         lifecycleScope.launchWhenCreated {
-            viewModel.getPager()
+            viewModel.getArticles()
                 .distinctUntilChanged()
                 .collectLatest {
                     articlesAdapter.submitData(it)

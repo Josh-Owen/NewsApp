@@ -32,7 +32,6 @@ class ViewArticleFragment : BaseFragment<FragmentViewArticleBinding>() {
 
     //endregion
 
-
     override fun inflateBinding(layoutInflater: LayoutInflater): FragmentViewArticleBinding {
         return FragmentViewArticleBinding.inflate(layoutInflater)
     }
@@ -41,15 +40,10 @@ class ViewArticleFragment : BaseFragment<FragmentViewArticleBinding>() {
         super.initViews()
         setHasOptionsMenu(true)
 
-
         binding.btnOpenArticle.clicks().onEach {
-            args.selectedArticle.url?.let {
-                val intent = Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse(it)
-                }
-                startActivity(intent)
-            }
+            viewModel.clickedArticle()
         }.launchIn(lifecycleScope)
+
 
     }
 
@@ -57,44 +51,53 @@ class ViewArticleFragment : BaseFragment<FragmentViewArticleBinding>() {
 
         lifecycleScope.launch {
 
-            viewModel.addArticle(args.selectedArticle)
+            viewModel.selectedArticle(args.selectedArticle)
 
             repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 launch {
-                    viewModel.articleTitleFlow.collectLatest {
+                    viewModel.getArticleTitle().collectLatest {
                         binding.tvTitle.text = it
                     }
                 }
 
                 launch {
-                    viewModel.articleContentFlow.collectLatest {
+                    viewModel.getArticleContent().collectLatest {
                         binding.tvContentBody.text = it
                     }
                 }
 
                 launch {
-
-                    viewModel.articleStarredChannel
-                        .collectLatest { isStarred ->
-                            Toast.makeText(
-                                requireContext(),
-                                if (isStarred) getString(R.string.toast_starred_article) else getString(
-                                    R.string.toast_un_starred_article
-                                ),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                    viewModel.articleClicked().collectLatest {
+                        args.selectedArticle.url?.let {
+                            val intent = Intent(Intent.ACTION_VIEW).apply {
+                                data = Uri.parse(it)
+                            }
+                            startActivity(intent)
                         }
+                    }
                 }
 
                 launch {
-                    viewModel.articleDescriptionFlow.collectLatest {
+                    viewModel.addedFlow.collectLatest {isStarred ->
+                        Toast.makeText(
+                            requireContext(),
+                            if (isStarred) getString(R.string.toast_starred_article) else getString(
+                                R.string.toast_un_starred_article
+                            ),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                launch {
+                    viewModel.getArticleDescription().collectLatest {
                         binding.tvDescriptionBody.text = it
                     }
                 }
 
                 launch {
-                    viewModel.articleAuthorFlow.collectLatest {
+                    viewModel.getArticleAuthor().collectLatest {
                         binding.tvAuthor.text = String.format(
                             getString(R.string.view_article_author_format),
                             it
@@ -104,7 +107,6 @@ class ViewArticleFragment : BaseFragment<FragmentViewArticleBinding>() {
             }
         }
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_article, menu)

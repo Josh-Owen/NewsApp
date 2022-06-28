@@ -1,6 +1,6 @@
 package com.joshowen.newsrepository.utils
 
-import com.joshowen.newsrepository.retrofit.ResultWrapper
+import com.joshowen.newsrepository.retrofit.wrappers.ResultWrapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

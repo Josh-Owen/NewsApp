@@ -38,6 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.settingsFragment -> binding.bnvHomeNavigation.hideView()
+                R.id.viewArticleFragment -> binding.bnvHomeNavigation.hideView()
                 else -> binding.bnvHomeNavigation.setVisible()
             }
         }

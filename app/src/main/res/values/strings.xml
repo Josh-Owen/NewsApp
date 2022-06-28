@@ -3,8 +3,11 @@
 
     <!-- Navigation -->
     <string name="navigation_title_starred">Starred</string>
-    <string name="navigation_title_article">Article</string>
+    <string name="navigation_title_article">Articles</string>
     <string name="navigation_title_settings">Settings</string>
+
+    <!-- Arguments -->
+    <string name="arguments_selected_article">selectedArticle</string>
 
     <!-- Preference Keys -->
     <string name="pref_dark_mode_key">DARK_MODE</string>
@@ -22,4 +25,20 @@
     <string name="page_title_starred">Starred</string>
     <string name="page_title_settings">Settings</string>
 
+    <!-- View Article -->
+
+
+    <string name="view_article_author_format">Author: %s</string>
+    <string name="view_article_published_format">Published At:\n\n%s</string>>
+    <string name="view_article_button_title">See full article</string>
+    <string name="navigation_title_unstar">Unstar</string>
+
+    <!-- Toast Messages -->
+    <string name="toast_starred_article">Starred Article</string>
+    <string name="toast_un_starred_article">Un-starred Article</string>
+    <string name="prompt_no_articles_to_display">No articles to display.</string>
+    <string name="prompt_no_starred_articles_to_display">No starred articles to display.</string>
+    <string name="prompt_retry">Retry</string>
+    <string name="view_article_description_header">Description</string>
+    <string name="view_article_content_header">Content</string>
 </resources>

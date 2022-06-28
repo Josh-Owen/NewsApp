@@ -10,8 +10,7 @@ import com.joshowen.newsapp.R
 import com.joshowen.newsapp.utils.managers.SharedPreferenceManager
 import javax.inject.Inject
 
-abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity(),
-    SharedPreferences.OnSharedPreferenceChangeListener {
+abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     lateinit var binding: Binding
 
@@ -22,7 +21,9 @@ abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity(),
         intent?.extras?.let {
             intentExtras(it)
         }
+
         super.onCreate(savedInstanceState)
+        applyDarkMode()
         binding = inflateBinding(layoutInflater)
         sharedPrefManager.getSharedPrefs().registerOnSharedPreferenceChangeListener(this)
         setContentView(binding.root)
@@ -45,28 +46,23 @@ abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity(),
 
     open fun initViews() {}
 
-    fun applySettings() {
+    private fun applyDarkMode() {
 
         if (sharedPrefManager.isDarkModeEnabled()) {
             delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
         } else {
             delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_NO
         }
-        recreate()
     }
 
+    //region SharedPreferences.OnSharedPreferenceChangeListener
     override fun onSharedPreferenceChanged(
         preferences: SharedPreferences,
         updatedFieldKey: String
     ) {
         when(updatedFieldKey) {
             resources.getString(R.string.pref_dark_mode_key) -> {
-                if(sharedPrefManager.isDarkModeEnabled()) {
-                    delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
-                }
-                else {
-                    delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_NO
-                }
+                applyDarkMode()
                 recreate()
             }
             else -> {
@@ -74,4 +70,5 @@ abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity(),
             }
         }
     }
+    //endregion
 }

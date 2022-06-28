@@ -20,4 +20,12 @@
         android:id="@+id/settingsFragment"
         android:name="com.joshowen.newsapp.ui.settings.SettingsFragment"
         android:label="@string/page_title_settings" />
+    <fragment
+        android:id="@+id/viewArticleFragment"
+        android:name="com.joshowen.newsapp.ui.viewarticle.ViewArticleFragment"
+        android:label="" >
+        <argument
+            android:name="selectedArticle"
+            app:argType="com.joshowen.newsrepository.room.models.Article" />
+    </fragment>
 </navigation>

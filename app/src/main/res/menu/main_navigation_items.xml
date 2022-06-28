@@ -7,4 +7,5 @@
     <item android:id="@+id/starredFragment"
         android:title="@string/navigation_title_starred"
         android:icon="@drawable/ic_star" />
+
 </menu>

@@ -2,16 +2,21 @@ package com.joshowen.newsapp.ui.starred
 
 import android.view.LayoutInflater
 import android.view.View
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.joshowen.newsapp.ui.articles.ArticleAdapter
+import com.joshowen.newsapp.R
 import com.joshowen.newsapp.base.BaseFragment
 import com.joshowen.newsapp.databinding.FragmentStarredBinding
+import com.joshowen.newsapp.ui.ArticleAdapter
+import com.joshowen.newsrepository.room.models.Article
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import javax.inject.Named
 
 @AndroidEntryPoint
 class StarredFragment : BaseFragment<FragmentStarredBinding>() {
@@ -20,10 +25,9 @@ class StarredFragment : BaseFragment<FragmentStarredBinding>() {
 
     private val viewModel : StarredFragmentVM by viewModels()
 
-    private val adapter : ArticleAdapter by lazy {
-        ArticleAdapter()
+    private val articlesAdapter : ArticleAdapter by lazy {
+        ArticleAdapter(::articleClicked)
     }
-
 
     //endregion
 
@@ -34,17 +38,33 @@ class StarredFragment : BaseFragment<FragmentStarredBinding>() {
 
     override fun initViews() {
         super.initViews()
-        binding.rvArticles.adapter = adapter
-        binding.rvArticles.layoutManager = LinearLayoutManager(requireContext())
-    }
 
-    override fun observeViewModel() {
-        lifecycleScope.launch {
-            binding.pbProgress.visibility = View.VISIBLE
-            val items = viewModel.callAPI()
-            adapter.submitList(items)
-            binding.pbProgress.visibility = View.GONE
+        articlesAdapter.addLoadStateListener {
+
+            binding.pbProgress.visibility = if (it.refresh is LoadState.Loading) View.VISIBLE else View.GONE
+
+            binding.tvNoArticles.isVisible = it.refresh is LoadState.NotLoading && articlesAdapter.itemCount == 0
+
+        }
+
+        binding.rvArticles.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = articlesAdapter
         }
     }
 
+    override fun observeViewModel() {
+
+        lifecycleScope.launch {
+            viewModel.getStarredArticles().collectLatest {
+                articlesAdapter.submitData(it)
+            }
+        }
+
+    }
+
+    private fun articleClicked(article: Article) {
+        val bundle = bundleOf(getString(R.string.arguments_selected_article) to article)
+        findNavController().navigate(R.id.viewArticleFragment, bundle)
+    }
 }

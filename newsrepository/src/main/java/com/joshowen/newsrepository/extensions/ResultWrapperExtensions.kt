@@ -1,6 +1,6 @@
 package com.joshowen.newsrepository.extensions
 
-import com.joshowen.newsrepository.retrofit.ResultWrapper
+import com.joshowen.newsrepository.retrofit.wrappers.ResultWrapper
 
 fun <T> ResultWrapper<T>.isSuccess() : Boolean {
     return this is ResultWrapper.Success

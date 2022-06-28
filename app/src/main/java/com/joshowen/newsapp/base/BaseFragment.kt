@@ -12,13 +12,6 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
 
     lateinit var binding: Binding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            initArgs(it)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,7 +21,7 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         initViews()
         return binding.root
     }
-
+    
     override fun onResume() {
         super.onResume()
         observeViewModel()
@@ -37,8 +30,6 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
     abstract fun inflateBinding(layoutInflater: LayoutInflater): Binding
 
     abstract fun observeViewModel()
-
-    open fun initArgs(arguments: Bundle) {}
 
     open fun initViews() {}
 

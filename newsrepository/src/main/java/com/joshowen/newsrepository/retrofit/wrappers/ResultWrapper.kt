@@ -1,4 +1,4 @@
-package com.joshowen.newsrepository.retrofit
+package com.joshowen.newsrepository.retrofit.wrappers
 
 sealed class ResultWrapper<out T> {
     data class Success<out T>(val value: T): ResultWrapper<T>()

@@ -1,6 +1,8 @@
 package com.joshowen.newsrepository.retrofit.request
 
 import com.joshowen.newsrepository.room.models.Article
+import java.util.*
+
 
 data class TopStoriesArticleResponse(
     val title : String?,
@@ -14,6 +16,7 @@ data class TopStoriesArticleResponse(
 
 fun TopStoriesArticleResponse.mapToArticle() : Article {
     return Article().apply {
+        id = this@mapToArticle.title ?: UUID.randomUUID().toString()
         title = this@mapToArticle.title
         author = this@mapToArticle.author
         description = this@mapToArticle.description

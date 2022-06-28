@@ -28,7 +28,7 @@ class PagingSource @Inject constructor( private val newsService: NewsService) : 
 
             val startingPageNumber = params.key ?: STARTING_PAGE_INDEX
 
-            val response = newsService.getEverything(ARTICLE_SEARCH_QUERY, startingPageNumber, PAGINATION_PAGE_SIZE)
+            val response = newsService.getStoriesByTopicPaginated(ARTICLE_SEARCH_QUERY, startingPageNumber, PAGINATION_PAGE_SIZE)
 
             val prevKey = if (startingPageNumber == 1) null else startingPageNumber-1
             val nextKey = startingPageNumber+1

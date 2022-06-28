@@ -8,7 +8,6 @@ import com.joshowen.newsrepository.retrofit.wrappers.ResultWrapper
 import com.joshowen.newsrepository.room.NewsDao
 import com.joshowen.newsrepository.room.models.Article
 import com.joshowen.newsrepository.utils.callApi
-import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,7 +18,7 @@ class NewsRepositoryImpl @Inject constructor(private val newsService : NewsServi
     @WorkerThread
     override suspend fun getAllStoriesPaginated(query: String, page : Int, pageSize : Int): ResultWrapper<Response<TopStoriesResponse>> {
         return callApi {
-            newsService.getEverything(query, page, pageSize)
+            newsService.getStoriesByTopicPaginated(query, page, pageSize)
         }
     }
 
@@ -31,32 +30,23 @@ class NewsRepositoryImpl @Inject constructor(private val newsService : NewsServi
     override fun getStories(): PagingSource<Int, Article> {
         return newsDao.loadArticles()
     }
+
     @WorkerThread
-    override suspend fun toggleStarArticle(article: Article) : Boolean {
+    override suspend fun updateArticle(article: Article) {
+        newsDao.updateArticle(article)
+    }
 
-        val previousEntry = newsDao.getArticleById(article.id)
+    @WorkerThread
+    override suspend fun insertArticle(article: Article) {
+        newsDao.insertArticle(article)
+    }
 
-        return if(previousEntry == null) {
-            val updatedArticle = article.apply {
-                isStarred = !isStarred
-            }
-            newsDao.insertArticle(updatedArticle)
-            true
-        }
-        else {
-            val updatedArticle = previousEntry.apply {
-                isStarred = !isStarred
-            }
-            newsDao.updateArticle(updatedArticle)
-            updatedArticle.isStarred
-        }
+    @WorkerThread
+    override suspend fun hasArticleWithId(id: String) : Boolean {
+        return newsDao.getArticleById(id) != null
     }
 
     override fun getNewsService(): NewsService {
         return newsService
-    }
-    @WorkerThread
-    override fun getArticleUpdates(id : Int) : Flow<Article?> {
-        return newsDao.getArticleChanges(id)
     }
 }

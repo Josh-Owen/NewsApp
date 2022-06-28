@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
@@ -43,8 +44,6 @@ class ViewArticleFragment : BaseFragment<FragmentViewArticleBinding>() {
         binding.btnOpenArticle.clicks().onEach {
             viewModel.clickedArticle()
         }.launchIn(lifecycleScope)
-
-
     }
 
     override fun observeViewModel() {
@@ -79,7 +78,9 @@ class ViewArticleFragment : BaseFragment<FragmentViewArticleBinding>() {
                 }
 
                 launch {
-                    viewModel.addedFlow.collectLatest {isStarred ->
+                    viewModel.getFlow()
+                        .distinctUntilChanged()
+                        .collect {isStarred ->
                         Toast.makeText(
                             requireContext(),
                             if (isStarred) getString(R.string.toast_starred_article) else getString(
@@ -117,8 +118,10 @@ class ViewArticleFragment : BaseFragment<FragmentViewArticleBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.starArticle -> {
-                lifecycleScope.launch {
-                    viewModel.starPressed()
+                lifecycle.coroutineScope.launch {
+                    launch {
+                        viewModel.starPressed()
+                    }
                 }
                 false
             }

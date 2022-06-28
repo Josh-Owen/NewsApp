@@ -8,10 +8,12 @@ import com.joshowen.newsrepository.room.models.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.*
 
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class ViewArticleFragmentVM @Inject constructor(val newsRepository: NewsRepository): ViewModel() {
 
@@ -40,29 +42,15 @@ class ViewArticleFragmentVM @Inject constructor(val newsRepository: NewsReposito
     private val clickedArticleFlow = clickedArticleChannel.receiveAsFlow()
 
 
-    private val articleStarredChannel = Channel<Unit>()
+    private val articleStarredChannel = Channel<Boolean>()
     private val articleStarredFlow = articleStarredChannel.receiveAsFlow()
 
-    private var articleCLickedFlow : Flow<String> = articleUrlFlow.takeWhen(clickedArticleFlow)
+    private var articleCLickedFlow: Flow<String> = articleUrlFlow.takeWhen(clickedArticleFlow)
+
 
     //endregion
 
-//    private val articleStarredChannel = Channel<Boolean>()
-//    val articleStarredFlow = articleStarredChannel.receiveAsFlow()
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    var addedFlow: Flow<Boolean> = articleFlow.takeWhen(articleStarredFlow)
-        .mapLatest {  article  ->
-            article.isStarred = !article.isStarred
-            article
-         }
-        .map {
-            newsRepository.toggleStarArticle(it)
-        }
-
-
     init {
-
 
         viewModelScope.launch {
 
@@ -72,8 +60,7 @@ class ViewArticleFragmentVM @Inject constructor(val newsRepository: NewsReposito
                 articleTitleChannel.send(it.title ?: "")
                 articleContentChannel.send(it.content ?: "")
                 articleUrlChannel.send(it.url ?: "")
-//                articleStarredChannel.send(it.isStarred)
-                //  articleStarredChannel.send(it.isStarred)
+                articleStarredChannel.send(it.isStarred)
             }
         }
     }
@@ -87,27 +74,45 @@ class ViewArticleFragmentVM @Inject constructor(val newsRepository: NewsReposito
     }
 
     suspend fun starPressed() {
-        articleStarredChannel.send(Unit)
+        val resp = !articleStarredChannel.receive()
+        articleStarredChannel.trySend(resp)
     }
 
-    fun getArticleDescription() : Flow<String> {
+    fun getArticleDescription(): Flow<String> {
         return articleDescriptionFlow
     }
 
-    fun getArticleContent() : Flow<String> {
+    fun getArticleContent(): Flow<String> {
         return articleContentFlow
     }
 
-    fun getArticleAuthor() : Flow<String> {
+    fun getArticleAuthor(): Flow<String> {
         return articleAuthorFlow
     }
 
-    fun getArticleTitle() : Flow<String> {
+    fun getArticleTitle(): Flow<String> {
         return articleTitleFlow
     }
 
-    fun articleClicked() : Flow<String> {
+    fun articleClicked(): Flow<String> {
         return articleCLickedFlow
+    }
+
+    fun getFlow(): Flow<Boolean> {
+        return combine(articleFlow, articleStarredFlow) { article, starred ->
+            article.isStarred = starred
+            article
+        }.mapLatest {
+
+            val doesArticleExist = newsRepository.hasArticleWithId(it.id)
+            if (doesArticleExist) {
+                newsRepository.updateArticle(it)
+            } else {
+                newsRepository.insertArticle(it)
+            }
+
+            it.isStarred
+        }
     }
 }
 

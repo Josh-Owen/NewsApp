@@ -5,14 +5,18 @@ import com.joshowen.newsrepository.retrofit.NewsService
 import com.joshowen.newsrepository.retrofit.request.TopStoriesResponse
 import com.joshowen.newsrepository.retrofit.wrappers.ResultWrapper
 import com.joshowen.newsrepository.room.models.Article
-import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface NewsRepository {
-     fun getStarredStories() : PagingSource<Int, Article>
-     fun getStories() : PagingSource<Int, Article>
-     suspend fun toggleStarArticle(article: Article) : Boolean
-     fun getNewsService() : NewsService
-     suspend fun getAllStoriesPaginated(query: String, page : Int, pageSize : Int): ResultWrapper<Response<TopStoriesResponse>>
-     fun getArticleUpdates(id : Int) : Flow<Article?>
+     fun getStarredStories(): PagingSource<Int, Article>
+     fun getStories(): PagingSource<Int, Article>
+     fun getNewsService(): NewsService
+     suspend fun getAllStoriesPaginated(
+          query: String,
+          page: Int,
+          pageSize: Int
+     ): ResultWrapper<Response<TopStoriesResponse>>
+     suspend fun updateArticle(article: Article)
+     suspend fun insertArticle(article: Article)
+     suspend fun hasArticleWithId(id: String): Boolean
 }

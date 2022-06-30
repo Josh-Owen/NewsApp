@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -78,7 +80,14 @@ class ViewArticleFragment : BaseFragment<FragmentViewArticleBinding>() {
                 }
 
                 launch {
+                    viewModel.getLoadingState().collectLatest {
+                        binding.pbLoading.visibility = if(it) VISIBLE else GONE
+                    }
+                }
+
+                launch {
                     viewModel.getFlow()
+                        .drop(1)
                         .distinctUntilChanged()
                         .collect {isStarred ->
                         Toast.makeText(
@@ -112,7 +121,6 @@ class ViewArticleFragment : BaseFragment<FragmentViewArticleBinding>() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_article, menu)
         super.onCreateOptionsMenu(menu, inflater)
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

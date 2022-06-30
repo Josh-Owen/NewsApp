@@ -8,44 +8,45 @@ import com.joshowen.newsrepository.room.models.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.*
 
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
-class ViewArticleFragmentVM @Inject constructor(val newsRepository: NewsRepository): ViewModel() {
+    class ViewArticleFragmentVM @Inject constructor(val newsRepository: NewsRepository): ViewModel() {
 
 
     //region Variables
 
-    private val articleChannel = Channel<Article>()
-    private val articleFlow = articleChannel.receiveAsFlow()
+    private val articleChannel = MutableStateFlow(Article())
+    private val articleFlow = articleChannel.asStateFlow()
 
-    private val articleDescriptionChannel = Channel<String>()
-    private val articleDescriptionFlow = articleDescriptionChannel.receiveAsFlow()
+    private val articleDescriptionChannel = MutableStateFlow("")
+    private val articleDescriptionFlow = articleDescriptionChannel.asStateFlow()
 
-    private val articleAuthorChannel = Channel<String>()
-    private val articleAuthorFlow = articleAuthorChannel.receiveAsFlow()
+    private val articleAuthorChannel = MutableStateFlow("")
+    private val articleAuthorFlow = articleAuthorChannel.asStateFlow()
 
-    private val articleTitleChannel = Channel<String>()
-    private val articleTitleFlow = articleTitleChannel.receiveAsFlow()
+    private val articleTitleChannel = MutableStateFlow("")
+    private val articleTitleFlow = articleTitleChannel.asStateFlow()
 
-    private val articleContentChannel = Channel<String>()
-    private val articleContentFlow = articleContentChannel.receiveAsFlow()
+    private val articleContentChannel = MutableStateFlow("")
+    private val articleContentFlow = articleContentChannel.asStateFlow()
 
-    private val articleUrlChannel = Channel<String>()
-    private val articleUrlFlow = articleUrlChannel.receiveAsFlow()
+    private val articleUrlChannel = MutableStateFlow("")
+    private val articleUrlFlow = articleUrlChannel.asStateFlow()
 
     private val clickedArticleChannel = Channel<Unit>()
     private val clickedArticleFlow = clickedArticleChannel.receiveAsFlow()
 
+    private val articleStarredChannel = MutableStateFlow(false)
+    private val articleStarredFlow = articleStarredChannel.asStateFlow()
 
-    private val articleStarredChannel = Channel<Boolean>()
-    private val articleStarredFlow = articleStarredChannel.receiveAsFlow()
+    private val _isLoading = MutableStateFlow(true)
+    private val isLoading = _isLoading.asStateFlow()
 
-    private var articleCLickedFlow: Flow<String> = articleUrlFlow.takeWhen(clickedArticleFlow)
+    private var articleClickedFlow: Flow<String> = articleUrlFlow.takeWhen(clickedArticleFlow)
 
 
     //endregion
@@ -54,19 +55,21 @@ class ViewArticleFragmentVM @Inject constructor(val newsRepository: NewsReposito
 
         viewModelScope.launch {
 
-            articleFlow.collectLatest {
-                articleDescriptionChannel.send(it.description ?: "")
-                articleAuthorChannel.send(it.author ?: "")
-                articleTitleChannel.send(it.title ?: "")
-                articleContentChannel.send(it.content ?: "")
-                articleUrlChannel.send(it.url ?: "")
-                articleStarredChannel.send(it.isStarred)
+            articleFlow
+                .collectLatest {
+                articleDescriptionChannel.value = it.description ?: ""
+                articleAuthorChannel.value = it.author ?: ""
+                articleTitleChannel.value = it.title ?: ""
+                articleContentChannel.value = it.content ?: ""
+                articleUrlChannel.value = it.url ?: ""
+                articleStarredChannel.value = it.isStarred
+                _isLoading.value = false
             }
         }
     }
 
     suspend fun selectedArticle(article: Article) {
-        articleChannel.send(article)
+        articleChannel.emit(article)
     }
 
     suspend fun clickedArticle() {
@@ -74,8 +77,17 @@ class ViewArticleFragmentVM @Inject constructor(val newsRepository: NewsReposito
     }
 
     suspend fun starPressed() {
-        val resp = !articleStarredChannel.receive()
-        articleStarredChannel.trySend(resp)
+        /*
+         Todo: Definitely a better way to do this, come back to it me and check out some of these extensions
+           https://github.com/akarnokd/kotlin-flow-extensions
+         */
+        viewModelScope.launch {
+            articleStarredFlow
+                .take(1)
+                .collectLatest {
+                    articleStarredChannel.emit(!it)
+                }
+        }
     }
 
     fun getArticleDescription(): Flow<String> {
@@ -95,22 +107,25 @@ class ViewArticleFragmentVM @Inject constructor(val newsRepository: NewsReposito
     }
 
     fun articleClicked(): Flow<String> {
-        return articleCLickedFlow
+        return articleClickedFlow
+    }
+
+    fun getLoadingState() : Flow<Boolean> {
+        return isLoading
     }
 
     fun getFlow(): Flow<Boolean> {
+
         return combine(articleFlow, articleStarredFlow) { article, starred ->
             article.isStarred = starred
             article
         }.mapLatest {
-
             val doesArticleExist = newsRepository.hasArticleWithId(it.id)
             if (doesArticleExist) {
                 newsRepository.updateArticle(it)
             } else {
                 newsRepository.insertArticle(it)
             }
-
             it.isStarred
         }
     }

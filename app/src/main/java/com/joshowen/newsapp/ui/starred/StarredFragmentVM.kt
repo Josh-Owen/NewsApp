@@ -13,6 +13,8 @@ import com.joshowen.newsrepository.repos.NewsRepository
 import com.joshowen.newsrepository.room.models.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel

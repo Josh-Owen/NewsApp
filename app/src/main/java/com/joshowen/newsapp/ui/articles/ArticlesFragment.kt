@@ -3,6 +3,7 @@ package com.joshowen.newsapp.ui.articles
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -51,6 +52,7 @@ class ArticlesFragment : BaseFragment<FragmentArticlesBinding>() {
             binding.tvNoArticles.isVisible = it.refresh is LoadState.NotLoading && articlesAdapter.itemCount == 0
 
             binding.btnRetry.isVisible = it.refresh is LoadState.Error
+
 
         }
 

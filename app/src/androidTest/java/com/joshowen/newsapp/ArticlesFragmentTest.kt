@@ -7,6 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.platform.app.InstrumentationRegistry
 import com.joshowen.newsapp.base.BaseFragmentTest
 import com.joshowen.newsapp.ui.ArticleAdapter
 import org.hamcrest.CoreMatchers.allOf
@@ -45,10 +46,9 @@ class ArticlesFragmentTest : BaseFragmentTest() {
     fun navigate_to_starred() {
 
         onView(
-            Matchers.anyOf(
-                withId(R.drawable.ic_star),
-                isDescendantOfA(withId(R.id.bnvHomeNavigation))
-            )
+
+                withId(R.id.starArticle)
+
         ).perform(click())
 
     }
@@ -61,13 +61,28 @@ class ArticlesFragmentTest : BaseFragmentTest() {
 
     }
 
+
+
+    @Test
+    fun error_loading_articles() {
+        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("svc wifi disable")
+        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("svc data disable")
+
+        onView(withId(R.id.btnRetry))
+            .check(matches(isDisplayed()))
+
+        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("svc wifi enabled")
+        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("svc data enabled")
+
+    }
+
     @Test
     fun navigate_to_view_article_and_star() {
 
         onView(withId(R.id.rvArticles))
             .perform(RecyclerViewActions.actionOnItemAtPosition<ArticleAdapter.ArticleViewHolder>(0, click()))
 
-        
+
 
     }
 

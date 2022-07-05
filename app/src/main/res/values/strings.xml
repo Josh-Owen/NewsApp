@@ -23,6 +23,7 @@
     <!-- Pages Titles -->
     <string name="page_title_articles">Articles</string>
     <string name="page_title_starred">Starred</string>
+    <string name="page_title_article">Article</string>
     <string name="page_title_settings">Settings</string>
 
     <!-- View Article -->
@@ -41,4 +42,5 @@
     <string name="prompt_retry">Retry</string>
     <string name="view_article_description_header">Description</string>
     <string name="view_article_content_header">Content</string>
+    <string name="network_error">Unable to fetch articles.</string>
 </resources>

@@ -42,9 +42,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 else -> binding.bnvHomeNavigation.setVisible()
             }
         }
+
+        setSupportActionBar(binding.toolbar)
+
         appBarConfiguration = AppBarConfiguration(setOf(R.id.articlesFragment, R.id.starredFragment))
         NavigationUI.setupWithNavController(binding.bnvHomeNavigation, navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+
+
     }
 
 

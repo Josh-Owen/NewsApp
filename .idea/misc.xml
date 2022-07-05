@@ -3,14 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_filled_star.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/ic_star_filled.xml" value="0.178" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_articles.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.15425531914893617" />
         <entry key="app/src/main/res/layout/fragment_starred.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_article.xml" value="0.109375" />
+        <entry key="app/src/main/res/layout/fragment_view_article.xml" value="0.14173228346456693" />
+        <entry key="app/src/main/res/layout/item_article.xml" value="0.21991701244813278" />
+        <entry key="app/src/main/res/layout/item_article_star.xml" value="0.1" />
         <entry key="app/src/main/res/menu/main_navigation_items.xml" value="0.15520833333333334" />
-        <entry key="app/src/main/res/menu/menu_home.xml" value="0.1" />
-        <entry key="app/src/main/res/xml/fragment_settings.xml" value="0.15476190476190477" />
+        <entry key="app/src/main/res/menu/menu_article.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/menu_home.xml" value="0.165" />
+        <entry key="app/src/main/res/xml/fragment_settings.xml" value="0.1" />
       </map>
     </option>
   </component>

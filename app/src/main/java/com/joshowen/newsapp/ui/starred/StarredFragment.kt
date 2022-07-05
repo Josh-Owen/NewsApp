@@ -47,7 +47,7 @@ class StarredFragment : BaseFragment<FragmentStarredBinding>() {
 
         }
 
-        binding.rvArticles.apply {
+        binding.rvStarred.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = articlesAdapter
         }

@@ -2,7 +2,7 @@ package com.joshowen.newsapp.ui.viewarticle
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshowen.newsapp.ext.takeWhen
+import com.joshowen.newsapp.utils.extensions.takeWhen
 import com.joshowen.newsrepository.repos.NewsRepository
 import com.joshowen.newsrepository.room.models.Article
 import dagger.hilt.android.lifecycle.HiltViewModel

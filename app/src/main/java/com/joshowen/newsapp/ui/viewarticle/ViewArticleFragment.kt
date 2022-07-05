@@ -18,7 +18,7 @@ import androidx.navigation.fragment.navArgs
 import com.joshowen.newsapp.R
 import com.joshowen.newsapp.base.BaseFragment
 import com.joshowen.newsapp.databinding.FragmentViewArticleBinding
-import com.joshowen.newsapp.ext.clicks
+import com.joshowen.newsapp.utils.clicks
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

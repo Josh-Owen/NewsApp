@@ -1,4 +1,4 @@
-package com.joshowen.newsapp.ext
+package com.joshowen.newsapp.utils.extensions
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.cancel

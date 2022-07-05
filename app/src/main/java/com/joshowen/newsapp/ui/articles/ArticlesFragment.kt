@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.joshowen.newsapp.R
 import com.joshowen.newsapp.base.BaseFragment
 import com.joshowen.newsapp.databinding.FragmentArticlesBinding
-import com.joshowen.newsapp.ext.clicks
 import com.joshowen.newsapp.ui.ArticleAdapter
+import com.joshowen.newsapp.utils.clicks
 import com.joshowen.newsrepository.room.models.Article
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

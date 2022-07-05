@@ -8,11 +8,13 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-open class BaseFragmentTest {
+abstract class BaseFragmentTest {
+
+    lateinit var scenario : ActivityScenario<MainActivity>
 
     @Before
     open fun setup() {
-        ActivityScenario.launch(MainActivity::class.java)
+        scenario = ActivityScenario.launch(MainActivity::class.java)
     }
 
 }

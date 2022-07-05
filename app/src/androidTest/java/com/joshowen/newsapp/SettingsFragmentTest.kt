@@ -24,7 +24,7 @@ class SettingsFragmentTest : BaseFragmentTest() {
     }
 
     @Test
-    fun settings_page_loaded() {
+    fun settingsPageLoaded() {
 
         onView(
             CoreMatchers.allOf(
@@ -42,7 +42,7 @@ class SettingsFragmentTest : BaseFragmentTest() {
     }
 
     @Test
-    fun settings_page_toggle_dark_mode() {
+    fun toggleDarkMode() {
 
         onView(withId(androidx.preference.R.id.recycler_view))
             .perform(

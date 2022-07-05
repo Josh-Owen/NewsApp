@@ -42,7 +42,7 @@ class NewsServiceInstrumentationTest {
 //    lateinit var newsRepo : NewsRepositoryImpl
 //
     @Mock
-    private lateinit var service: NewsService
+    private lateinit var newsService: NewsService
 
     @Before
     fun init() {
@@ -63,12 +63,11 @@ class NewsServiceInstrumentationTest {
 
 //    @Test
 //    @ExperimentalCoroutinesApi
-//    fun getData() = runTest {
+//    fun test_call() = runTest {
 //        this.launch {
 //
-//            assert(true)
 //            val response = TopStoriesResponse(
-//                "",
+//                "200",
 //                5,
 //                listOf(
 //                    TopStoriesArticleResponse(
@@ -83,15 +82,13 @@ class NewsServiceInstrumentationTest {
 //                )
 //            )
 //
-//
 //            Mockito.`when`(
 //                newsService.getStoriesByTopicPaginated(
 //                    ARTICLE_SEARCH_QUERY,
 //                    STARTING_PAGE_INDEX,
 //                    PAGINATION_PAGE_SIZE
 //                )
-//            )
-//                .thenReturn(Response.success(200, response))
+//            ).thenReturn(Response.success(200, response))
 //
 //            val result = newsService.getStoriesByTopicPaginated(
 //                ARTICLE_SEARCH_QUERY,
@@ -106,7 +103,6 @@ class NewsServiceInstrumentationTest {
 //
 //
 //        }
-//
 //    }
 
 }

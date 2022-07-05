@@ -1,15 +1,15 @@
 package com.joshowen.newsapp
 
 import android.widget.TextView
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.platform.app.InstrumentationRegistry
 import com.joshowen.newsapp.base.BaseFragmentTest
 import com.joshowen.newsapp.ui.ArticleAdapter
+import com.joshowen.newsapp.utils.waitFor
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers
@@ -26,7 +26,7 @@ class ArticlesFragmentTest : BaseFragmentTest() {
     }
 
     @Test
-    fun view_successfully_rendered() {
+    fun articlesPageLoaded() {
         onView(
             Matchers.allOf(
                 withId(R.drawable.ic_article),
@@ -43,47 +43,44 @@ class ArticlesFragmentTest : BaseFragmentTest() {
     }
 
     @Test
-    fun navigate_to_starred() {
+    fun navigateToSelectedArticle() {
+        onView(isRoot()).perform(waitFor(250))
+        onView(withId(R.id.rvArticles))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<ArticleAdapter.ArticleViewHolder>(
+                    0,
+                    click()
+                )
+            )
+
+    }
+
+    @Test
+    fun navigateToSettingsAndReturn() {
+        onView(
+            allOf(
+                instanceOf(TextView::class.java),
+                withParent(withId(R.id.toolbar))
+            )
+        ).check(matches(withText(R.string.page_title_articles)))
+
+        Espresso.openContextualActionModeOverflowMenu()
+        onView(withText(R.string.navigation_title_settings)).perform(click())
 
         onView(
+            allOf(
+                instanceOf(TextView::class.java),
+                withParent(withId(R.id.toolbar))
+            )
+        ).check(matches(withText(R.string.page_title_settings)))
 
-                withId(R.id.starArticle)
+        Espresso.pressBack()
 
-        ).perform(click())
-
+        onView(
+            allOf(
+                instanceOf(TextView::class.java),
+                withParent(withId(R.id.toolbar))
+            )
+        ).check(matches(withText(R.string.page_title_articles)))
     }
-
-    @Test
-    fun navigate_to_view_article() {
-
-        onView(withId(R.id.rvArticles))
-            .perform(RecyclerViewActions.actionOnItemAtPosition<ArticleAdapter.ArticleViewHolder>(0, click()))
-
-    }
-
-
-
-    @Test
-    fun error_loading_articles() {
-        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("svc wifi disable")
-        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("svc data disable")
-
-        onView(withId(R.id.btnRetry))
-            .check(matches(isDisplayed()))
-
-        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("svc wifi enabled")
-        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("svc data enabled")
-
-    }
-
-    @Test
-    fun navigate_to_view_article_and_star() {
-
-        onView(withId(R.id.rvArticles))
-            .perform(RecyclerViewActions.actionOnItemAtPosition<ArticleAdapter.ArticleViewHolder>(0, click()))
-
-
-
-    }
-
 }

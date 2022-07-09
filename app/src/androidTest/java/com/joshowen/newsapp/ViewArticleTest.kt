@@ -1,6 +1,5 @@
 package com.joshowen.newsapp
 
-import android.content.Intent
 import android.widget.TextView
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
@@ -8,8 +7,6 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.joshowen.newsapp.base.BaseFragmentTest
@@ -38,6 +35,7 @@ class ViewArticleTest : BaseFragmentTest() {
 
     @Test
     fun viewArticleLoaded() {
+
 
         onView(
             allOf(
@@ -109,13 +107,8 @@ class ViewArticleTest : BaseFragmentTest() {
         ).check(ViewAssertions.matches(ViewMatchers.withText(R.string.page_title_article)))
     }
 
-//    @Test
-//    fun seeFullArticleClicked() {
-//        onView(withId(R.id.btnOpenArticle)).perform(click())
-//        intended(
-//            allOf(
-//                hasAction(Intent.ACTION_VIEW)
-//            )
-//        )
-//    }
+    @Test
+    fun seeFullArticleClicked() {
+        onView(withId(R.id.btnOpenArticle)).perform(click())
+    }
 }

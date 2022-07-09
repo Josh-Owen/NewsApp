@@ -16,7 +16,6 @@ import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Test
 
-
 class ArticlesFragmentTest : BaseFragmentTest() {
 
 
@@ -52,7 +51,6 @@ class ArticlesFragmentTest : BaseFragmentTest() {
                     click()
                 )
             )
-
     }
 
     @Test

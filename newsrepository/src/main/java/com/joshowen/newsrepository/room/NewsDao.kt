@@ -2,11 +2,8 @@ package com.joshowen.newsrepository.room
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import com.joshowen.newsrepository.retrofit.request.TopStoriesArticleResponse
 import com.joshowen.newsrepository.room.NewsDatabase.Companion.DB_ARTICLES_TABLE_NAME
-import com.joshowen.newsrepository.room.NewsDatabase.Companion.DB_NAME
 import com.joshowen.newsrepository.room.models.Article
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NewsDao {
@@ -22,9 +19,6 @@ interface NewsDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateArticle(article: Article)
-
-    @Query("SELECT * FROM $DB_ARTICLES_TABLE_NAME WHERE id=:id LIMIT 1")
-    fun getArticleChanges(id : Int): Flow<Article>
 
     @Query("SELECT * FROM $DB_ARTICLES_TABLE_NAME WHERE id=:id LIMIT 1")
     suspend fun getArticleById(id: String): Article?

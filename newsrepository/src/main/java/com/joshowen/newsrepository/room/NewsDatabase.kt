@@ -9,7 +9,7 @@ import com.joshowen.newsrepository.room.models.Article
 @Database(
     entities = [Article::class],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 abstract class NewsDatabase : RoomDatabase() {
 

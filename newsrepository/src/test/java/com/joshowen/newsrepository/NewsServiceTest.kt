@@ -2,7 +2,6 @@ package com.joshowen.newsrepository
 
 import com.joshowen.newsrepository.base.BaseUnitTest
 import org.junit.Test
-
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -22,7 +21,7 @@ class NewsServiceTest : BaseUnitTest() {
     fun fetchedArticlesResponseOK() = runTest {
 
         val responseModel =
-            PaginatedArticlesAPIResponseFactory.getApiResponse(PaginatedArticlesAPIResponseFactory.ResponseType.COMPLETE_PAGINATED_PAGE)
+            PaginatedResponseFactory.getApiResponse(PaginatedResponseFactory.ResponseType.COMPLETE_PAGINATED_PAGE)
 
         Mockito.`when`(
             newsService.getStoriesByTopicPaginated(
@@ -53,7 +52,7 @@ class NewsServiceTest : BaseUnitTest() {
     fun fetchedArticlesResponseError() = runTest {
 
         val responseModel =
-            PaginatedArticlesAPIResponseFactory.getApiResponse(PaginatedArticlesAPIResponseFactory.ResponseType.API_ERROR)
+            PaginatedResponseFactory.getApiResponse(PaginatedResponseFactory.ResponseType.API_ERROR)
 
         Mockito.`when`(
             newsService.getStoriesByTopicPaginated(
@@ -83,7 +82,7 @@ class NewsServiceTest : BaseUnitTest() {
     fun fetchedCorrectNumberOfArticles() = runTest {
 
         val responseModel =
-            PaginatedArticlesAPIResponseFactory.getApiResponse(PaginatedArticlesAPIResponseFactory.ResponseType.COMPLETE_PAGINATED_PAGE)
+            PaginatedResponseFactory.getApiResponse(PaginatedResponseFactory.ResponseType.COMPLETE_PAGINATED_PAGE)
 
         Mockito.`when`(
             newsService.getStoriesByTopicPaginated(
@@ -114,7 +113,7 @@ class NewsServiceTest : BaseUnitTest() {
     fun fetchedNoResults() = runTest {
 
         val responseModel =
-            PaginatedArticlesAPIResponseFactory.getApiResponse(PaginatedArticlesAPIResponseFactory.ResponseType.NO_RESULTS)
+            PaginatedResponseFactory.getApiResponse(PaginatedResponseFactory.ResponseType.NO_RESULTS)
 
         Mockito.`when`(
             newsService.getStoriesByTopicPaginated(
@@ -141,10 +140,10 @@ class NewsServiceTest : BaseUnitTest() {
 
     @Test
     @ExperimentalCoroutinesApi
-    fun fetchedIncompleteListOfArticles() = runTest {
+    fun fetchedIncorrectNumberOfArticles() = runTest {
 
         val responseModel =
-            PaginatedArticlesAPIResponseFactory.getApiResponse(PaginatedArticlesAPIResponseFactory.ResponseType.INCOMPLETE_NUMBER_OF_RESULTS)
+            PaginatedResponseFactory.getApiResponse(PaginatedResponseFactory.ResponseType.INCOMPLETE_NUMBER_OF_RESULTS)
 
         Mockito.`when`(
             newsService.getStoriesByTopicPaginated(
@@ -171,10 +170,10 @@ class NewsServiceTest : BaseUnitTest() {
 
     @Test
     @ExperimentalCoroutinesApi
-    fun fetchedMismatchedNumberOfArticles() = runTest {
+    fun fetchedMismatchedNumberOfResults() = runTest {
 
         val responseModel =
-            PaginatedArticlesAPIResponseFactory.getApiResponse(PaginatedArticlesAPIResponseFactory.ResponseType.API_RESULTS_COUNT_MISMATCH)
+            PaginatedResponseFactory.getApiResponse(PaginatedResponseFactory.ResponseType.API_RESULTS_COUNT_MISMATCH)
 
         Mockito.`when`(
             newsService.getStoriesByTopicPaginated(

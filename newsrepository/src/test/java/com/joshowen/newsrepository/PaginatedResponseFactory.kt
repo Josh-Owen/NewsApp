@@ -2,11 +2,13 @@ package com.joshowen.newsrepository
 
 import com.joshowen.newsrepository.retrofit.request.TopStoriesArticleResponse
 import com.joshowen.newsrepository.retrofit.request.TopStoriesResponse
+import com.joshowen.newsrepository.retrofit.request.mapToArticle
+import com.joshowen.newsrepository.room.models.Article
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
 
-object PaginatedArticlesAPIResponseFactory {
+object PaginatedResponseFactory {
 
     enum class ResponseType {
         COMPLETE_PAGINATED_PAGE, API_ERROR, NO_RESULTS, INCOMPLETE_NUMBER_OF_RESULTS, API_RESULTS_COUNT_MISMATCH
@@ -32,6 +34,14 @@ object PaginatedArticlesAPIResponseFactory {
         "Not to be too alarmist, but the economy isnt looking super great at the moment. For starters, dont look at your 401(k) right now. From crashing stock markets to spiking consumer prices, a recession s… [+3315 chars]"
     )
 
+
+    fun sampleArticleResponse1() : Article{
+        return article1.mapToArticle()
+    }
+
+    fun sampleArticleResponse2() : Article{
+        return article2.mapToArticle()
+    }
 
     fun getApiResponse(type: ResponseType) : Response<TopStoriesResponse>{
         return when (type) {

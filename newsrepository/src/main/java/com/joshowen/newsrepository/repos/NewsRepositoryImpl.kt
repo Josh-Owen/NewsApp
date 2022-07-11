@@ -26,6 +26,7 @@ class NewsRepositoryImpl @Inject constructor(private val newsService : NewsServi
     override fun getStarredStories(): PagingSource<Int, Article> {
         return newsDao.loadStarredArticles()
     }
+
     @WorkerThread
     override fun getStories(): PagingSource<Int, Article> {
         return newsDao.loadArticles()
